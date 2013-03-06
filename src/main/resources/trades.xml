@@ -5,17 +5,29 @@
         <quantity>5</quantity>
         <price>11.39</price>
         <customer>Customer1</customer>
+        <order>
+        	<id>1</id>
+        	<product>Product 1</product>
+        </order>
     </trade>
     <trade>
         <isin>XYZ0002</isin>
         <quantity>2</quantity>
         <price>72.99</price>
         <customer>Customer2c</customer>
+        <order>
+        	<id>1</id>
+        	<product>Product 1</product>
+        </order>
     </trade>
     <trade>
         <isin>XYZ0003</isin>
         <quantity>9</quantity>
         <price>99.99</price>
         <customer>Customer3</customer>
+        <order>
+        	<id>1</id>
+        	<product>Product 1</product>
+        </order>
     </trade>
 </records>

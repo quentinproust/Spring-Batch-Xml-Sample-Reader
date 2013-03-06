@@ -19,6 +19,23 @@ public class Trade {
 	@XmlElement
 	private String customer;
 
+	@XmlElement
+	private Order order;
+
+	/**
+	 * @return the order
+	 */
+	public Order getOrder() {
+		return order;
+	}
+
+	/**
+	 * @param order the order to set
+	 */
+	public void setOrder(final Order order) {
+		this.order = order;
+	}
+
 	/**
 	 * @return the isin
 	 */
@@ -82,7 +99,8 @@ public class Trade {
 	 */
 	@Override
 	public String toString() {
-		return "Trade [isin=" + isin + ", quantity=" + quantity + ", price=" + price + ", customer=" + customer + "]";
+		return "Trade [isin=" + isin + ", quantity=" + quantity + ", price=" + price + ", customer=" + customer
+				+ ", order=" + order + "]";
 	}
 
 }
