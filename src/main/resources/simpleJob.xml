@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/batch 
+		http://www.springframework.org/schema/batch/spring-batch-2.0.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+	<!-- <beans xmlns:batch="http://www.springframework.org/schema/batch" -->
+	<!-- xmlns="http://www.springframework.org/schema/beans" -->
+	<!-- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" -->
+	<!-- xmlns:util="http://www.springframework.org/schema/util" -->
+	<!-- xsi:schemaLocation=" -->
+	<!-- http://www.springframework.org/schema/beans -->
+	<!-- http://www.springframework.org/schema/beans/spring-beans-3.1.xsd -->
+	<!-- http://www.springframework.org/schema/batch -->
+	<!-- http://www.springframework.org/schema/batch/spring-batch-2.0.xsd -->
+	<!-- http://www.springframework.org/schema/util -->
+	<!-- http://www.springframework.org/schema/util/spring-util-2.0.xsd"> -->
+
+	<import resource="applicationContext.xml" />
+
+	<!-- <bean id="tradeMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"> -->
+	<!-- <property name="aliases"> -->
+	<!-- <util:map id="aliases"> -->
+	<!-- <entry key="trade" value="xmlsample.data.Trade" /> -->
+	<!-- <entry key="isin" value="java.lang.String" /> -->
+	<!-- <entry key="quantity" value="int" /> -->
+	<!-- <entry key="price" value="float" /> -->
+	<!-- <entry key="customer" value="java.lang.String" /> -->
+	<!-- </util:map> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<bean id="tradeMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+			<list>
+				<value>xmlsample.data.Trade</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="itemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<property name="resource" value="file:target/test-outputs/output.txt" />
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.PassThroughLineAggregator" />
+		</property>
+	</bean>
+
+	<bean id="itemReader" class="org.springframework.batch.item.xml.StaxEventItemReader">
+		<property name="fragmentRootElementName" value="trade" />
+		<property name="resource" value="trades.xml" />
+		<property name="unmarshaller" ref="tradeMarshaller" />
+	</bean>
+
+	<batch:job id="ioSampleJob">
+		<batch:step id="step1">
+			<batch:tasklet>
+				<batch:chunk reader="itemReader" writer="itemWriter"
+					commit-interval="2" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<!-- <bean id="hello" class="helloworld.PrintTasklet"> -->
+	<!-- <property name="message" value="Hello"/> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="space" class="helloworld.PrintTasklet"> -->
+	<!-- <property name="message" value=" "/> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="world" class="helloworld.PrintTasklet"> -->
+	<!-- <property name="message" value="World!"/> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="taskletStep" abstract="true" -->
+	<!-- class="org.springframework.batch.core.step.tasklet.TaskletStep"> -->
+	<!-- <property name="jobRepository" ref="jobRepository"/> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="simpleJob" class="org.springframework.batch.core.job.SimpleJob"> -->
+	<!-- <property name="name" value="simpleJob" /> -->
+	<!-- <property name="steps"> -->
+	<!-- <list> -->
+	<!-- <bean parent="taskletStep"> -->
+	<!-- <property name="tasklet" ref="hello"/> -->
+	<!-- </bean> -->
+	<!-- <bean parent="taskletStep"> -->
+	<!-- <property name="tasklet" ref="space"/> -->
+	<!-- </bean> -->
+	<!-- <bean parent="taskletStep"> -->
+	<!-- <property name="tasklet" ref="world"/> -->
+	<!-- </bean> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- <property name="jobRepository" ref="jobRepository"/> -->
+	<!-- </bean> -->
+
+</beans>
