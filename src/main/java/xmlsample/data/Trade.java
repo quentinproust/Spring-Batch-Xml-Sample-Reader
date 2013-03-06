@@ -99,8 +99,7 @@ public class Trade {
 	 */
 	@Override
 	public String toString() {
-		return "Trade [isin=" + isin + ", quantity=" + quantity + ", price=" + price + ", customer=" + customer
-				+ ", order=" + order + "]";
+		return "Trade [isin=" + isin + ", quantity=" + quantity + ", price=" + price + ", customer=" + customer + "]";
 	}
 
 }

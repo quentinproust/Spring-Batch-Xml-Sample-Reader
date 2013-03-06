@@ -46,8 +46,17 @@
 		</property>
 	</bean>
 
-	<bean id="itemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
-		<property name="resource" value="file:target/test-outputs/output.txt" />
+	<bean id="orderItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<property name="resource" value="file:target/test-outputs/output-order.txt" />
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.PassThroughLineAggregator" />
+		</property>
+	</bean>
+
+	<bean id="itemWriter" class="xmlsample.chunk.writer.TradeCsvWriter">
+		<property name="orderItemWriter" ref="orderItemWriter" />
+		<property name="resource" value="file:target/test-outputs/output-trade.txt" />
 		<property name="lineAggregator">
 			<bean
 				class="org.springframework.batch.item.file.transform.PassThroughLineAggregator" />
